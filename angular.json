@@ -45,7 +45,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "/ScienceCenter/"
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
