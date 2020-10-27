@@ -1,5 +1,26 @@
 <main>
-  <h1>Zoom WebSDK Sample Angular</h1>
+  <h1>Science Center Elpitiya</h1>
 
-  <button (click)="getSignature()">Join Meeting</button>
+
+  <div class="card container">
+    <form [formGroup]="classForm" (ngSubmit)="getSignature()">
+      <br>
+      <label>
+        Student Name:
+      </label>
+      <input type="text" formControlName="studentName" /><br><br>
+      <label>
+        Meeting id:
+      </label>
+      <input type="text" formControlName="meetingId" /><br><br>
+      <label>
+        Password:
+      </label>
+      <input type="text" formControlName="password" />
+      <div class="form-group">
+        <button>Join Class</button>
+      </div>
+    </form>  
+    
+  </div>
 </main>

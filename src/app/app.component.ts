@@ -1,8 +1,9 @@
-import { Component, OnInit, Inject } from '@angular/core';
+	import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 
 import { ZoomMtg } from '@zoomus/websdk';
+import { FormControl,FormGroup } from '@angular/forms';
 
 ZoomMtg.preLoadWasm();
 ZoomMtg.prepareJssdk();
@@ -15,14 +16,10 @@ ZoomMtg.prepareJssdk();
 export class AppComponent implements OnInit {
 
   // setup your signature endpoint here: https://github.com/zoom/websdk-sample-signature-node.js
-  signatureEndpoint = ''
-  apiKey = ''
-  meetingNumber = 123456789
+  signatureEndpoint = 'http://localhost:4000'
+  apiKey = 'zvDVrOsGTnaXO5347e0qiA'
   role = 0
   leaveUrl = 'http://localhost:4200'
-  userName = 'Angular'
-  userEmail = ''
-  passWord = ''
 
   constructor(public httpClient: HttpClient, @Inject(DOCUMENT) document) {
 
@@ -32,18 +29,27 @@ export class AppComponent implements OnInit {
 
   }
 
+  classForm = new FormGroup({
+  	studentName: new FormControl(''),
+    password: new FormControl(''),
+    meetingId: new FormControl(''),
+  });
+
+
   getSignature() {
     this.httpClient.post(this.signatureEndpoint, {
-	    meetingNumber: this.meetingNumber,
+	    meetingNumber: this.classForm.value.meetingId,
 	    role: this.role
     }).toPromise().then((data: any) => {
       if(data.signature) {
+        console.log("Ruwan")
         console.log(data.signature)
         this.startMeeting(data.signature)
       } else {
         console.log(data)
       }
     }).catch((error) => {
+		console.log("Mahesh")
       console.log(error)
     })
   }
@@ -60,11 +66,10 @@ export class AppComponent implements OnInit {
 
         ZoomMtg.join({
           signature: signature,
-          meetingNumber: this.meetingNumber,
-          userName: this.userName,
+          meetingNumber: this.classForm.value.meetingId,
+          userName: this.classForm.value.studentName,
           apiKey: this.apiKey,
-          userEmail: this.userEmail,
-          passWord: this.passWord,
+          passWord: this.classForm.value.password,
           success: (success) => {
             console.log(success)
           },
